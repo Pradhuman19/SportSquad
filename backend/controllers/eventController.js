@@ -25,3 +25,15 @@ export const createanEvent = TryCatch(async (req, res) => {
 
     res.json({msg: "Event created successfully" });
 });
+
+export const getAllEvents = TryCatch(async(req,res)=>{
+    const events = await Event.find().sort({createdAt: -1})
+
+    res.json(events);
+});
+
+export const getSingleEvent = TryCatch(async(req,res)=>{
+    const event = await Event.findById(req.params.id).populate("owner", "-password").populate("participants");
+
+    res.json(event);
+})

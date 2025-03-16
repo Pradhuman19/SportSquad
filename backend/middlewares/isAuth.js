@@ -10,8 +10,6 @@ export const isAuth  = async(req ,res  ,next) =>{
         });
         
     const decodedData = jwt.verify(token, process.env.JWT_SEC);
-    
-    console.log(decodedData);
 
     if(!decodedData)
         return res.status(403).json({msg: "Please Login"});

@@ -33,7 +33,10 @@ const schema = new mongoose.Schema({
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    teamSize: {
+        type: Number
+    }
 }, {
     timestamps: true
 });
