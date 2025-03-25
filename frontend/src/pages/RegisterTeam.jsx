@@ -22,6 +22,12 @@ const RegisterTeam = () => {
     setMembers([...members, { name: '', age: '' }]);
   };
 
+  const removeMember = (index) => {
+    // Ensure at least one member is always present if desired
+    if (members.length === 1) return;
+    setMembers(members.filter((_, idx) => idx !== index));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -42,7 +48,9 @@ const RegisterTeam = () => {
         <h2 className="text-2xl font-semibold text-center mb-6">Register Team</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Team Name</label>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              Team Name
+            </label>
             <input
               type="text"
               id="name"
@@ -53,8 +61,21 @@ const RegisterTeam = () => {
             />
           </div>
           {members.map((member, index) => (
-            <div key={index} className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">Member {index + 1}</label>
+            <div key={index} className="mb-4 border p-2 rounded">
+              <div className="flex justify-between items-center mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Member {index + 1}
+                </label>
+                {members.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeMember(index)}
+                    className="text-red-600 text-xs"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
               <input
                 type="text"
                 placeholder="Name"
@@ -73,7 +94,9 @@ const RegisterTeam = () => {
               />
             </div>
           ))}
-          <button type="button" className="common-btn mb-4" onClick={addMember}>Add Member</button>
+          <button type="button" className="common-btn mb-4" onClick={addMember}>
+            Add Member
+          </button>
           <button type="submit" className="common-btn" disabled={loading}>
             {loading ? <LoadingAnimation /> : 'Register Team'}
           </button>
