@@ -9,6 +9,7 @@ import { UserData } from './context/UserContext';
 import { Loading } from './components/Loading';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
+import CreateEvent from './pages/CreateEvent';
 
 const App = () => {
   const { loading, isAuth } = UserData();
@@ -25,6 +26,7 @@ const App = () => {
                   <Route path='/' element={isAuth ? <DashBoard /> : <Login />} />
                   <Route path='/login' element={isAuth ? <DashBoard /> : <Login />} />
                   <Route path='/register' element={isAuth ? <DashBoard /> : <Register />} />
+                  <Route path='/createevent' element={isAuth ? <CreateEvent /> : <Login />} />
                   <Route path='/register-team/:id' element={isAuth ? <RegisterTeam /> : <Login />} />
                   <Route path='/joined' element={isAuth ? <JoinedEvents /> : <Login />} /> {/* Add the new route */}
                   <Route path='/events' element={isAuth ? <Events /> : <Login />} /> {/* New route */}
