@@ -1,7 +1,8 @@
 import TryCatch from "../utils/TryCatch.js";
 import getDataUrl from "../utils/urlGenerator.js";
 import cloudinary from "cloudinary";
-import {Event} from "../models/eventModel.js";
+import { Event } from "../models/eventModel.js";
+import { User } from "../models/userModel.js";
 
 export const createanEvent = TryCatch(async (req, res) => {
     const { title, description } = req.body;
@@ -49,4 +50,11 @@ export const deleteEvent = TryCatch(async(req,res)=>{
     await event.deleteOne();
 
     res.json({msg: "Event deleted successfully" });
+});
+
+export const getJoinedEvents = TryCatch(async (req, res) => {
+  const user = await User.findById(req.user._id).populate('joinedEvents');
+  if (!user) return res.status(404).json({ msg: "User not found." });
+
+  res.json(user.joinedEvents);
 });
