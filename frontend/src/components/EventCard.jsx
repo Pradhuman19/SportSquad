@@ -8,14 +8,53 @@ const EventCard = ({ event }) => {
     navigate(`/register-team/${event._id}`);
   };
 
+  const handleViewDetails = () => {
+    navigate(`/events/${event._id}`);
+  };
+
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden flex mb-4">
-      <img src={event.image.url} alt={event.title} className="w-1/4 object-cover" />
-      <div className="p-4 flex-1">
-        <h2 className="text-lg font-bold">{event.title}</h2>
-        <p className="text-gray-600">{event.location}</p>
-        <p className="text-gray-600">{new Date(event.date).toLocaleDateString()}</p>
-        <button onClick={handleRegister} className="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Register</button>
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 flex">
+      <div className="w-1/3">
+        <img
+          src={event.image.url}
+          alt={event.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="w-2/3 p-6 flex flex-col justify-between">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">{event.title}</h2>
+          <p className="text-gray-700 text-sm mb-2">
+            {event.description.length > 100 
+              ? `${event.description.slice(0, 100)}...` 
+              : event.description}
+          </p>
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-gray-600 font-medium">
+              {new Date(event.date).toLocaleDateString()}
+            </span>
+            <span className="text-gray-600 font-medium">{event.address || event.Address}</span>
+          </div>
+          <div className="flex justify-between items-center mb-4">
+            <span className="text-gray-600 text-sm">Category: {event.category}</span>
+            <span className="text-gray-600 text-sm">Difficulty: {event.difficulty}</span>
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <button
+            onClick={handleRegister}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          >
+            Register
+          </button>
+          <button
+            onClick={handleViewDetails}
+            className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+          >
+            View Details
+          </button>
+          <span className="text-gray-500 text-sm">Team Size: {event.teamSize}</span>
+        </div>
       </div>
     </div>
   );
