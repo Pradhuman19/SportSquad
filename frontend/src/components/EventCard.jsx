@@ -1,8 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { UserData } from '../context/UserContext';
 
 const EventCard = ({ event }) => {
   const navigate = useNavigate();
+  const { user, setUser } = UserData();
 
   const handleRegister = () => {
     navigate(`/register-team/${event._id}`);
@@ -11,6 +14,23 @@ const EventCard = ({ event }) => {
   const handleViewDetails = () => {
     navigate(`/events/${event._id}`);
   };
+
+  const handleUnregister = async () => {
+    try {
+      await axios.post(`/api/events/unregister/${event._id}`, {}, { withCredentials: true });
+      // Update the user context by removing the event id from joinedEvents
+      const updatedJoinedEvents = user.joinedEvents.filter(
+        (eid) => eid.toString() !== event._id
+      );
+      setUser({ ...user, joinedEvents: updatedJoinedEvents });
+    } catch (error) {
+      console.error('Error unregistering from event:', error);
+    }
+  };
+
+  // Determine if the user has already registered for this event
+  const isRegistered =
+    user.joinedEvents && user.joinedEvents.some((eid) => eid.toString() === event._id);
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-6 flex">
@@ -41,12 +61,21 @@ const EventCard = ({ event }) => {
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <button
-            onClick={handleRegister}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-          >
-            Register
-          </button>
+          {isRegistered ? (
+            <button
+              onClick={handleUnregister}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+            >
+              Unregister
+            </button>
+          ) : (
+            <button
+              onClick={handleRegister}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+            >
+              Register
+            </button>
+          )}
           <button
             onClick={handleViewDetails}
             className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"

@@ -32,7 +32,7 @@ const schema = new mongoose.Schema({
     },
     participants: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Team'  // Changed from "User" to "Team"
     }],
     teamSize: {
         type: Number

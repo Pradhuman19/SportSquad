@@ -7,6 +7,7 @@ import JoinedEvents from './pages/JoinedEvents'; // Import the new JoinedEvents 
 import Events from './pages/Events'; // import the Events page
 import HostedEvents from './pages/HostedEvents'; // Import HostedEvents
 import EventDetail from './pages/EventDetail'; // Import EventDetail
+import AdminEventControl from './pages/AdminEventControl'; // Import AdminEventControl
 import { UserData } from './context/UserContext';
 import { Loading } from './components/Loading';
 import Navbar from './components/Navbar';
@@ -34,6 +35,7 @@ const App = () => {
                   <Route path='/hosted' element={isAuth ? <HostedEvents /> : <Login />} /> {/* New route */}
                   <Route path='/events' element={isAuth ? <Events /> : <Login />} /> {/* New route */}
                   <Route path='/events/:id' element={isAuth ? <EventDetail /> : <Login />} /> {/* New route */}
+                  <Route path='/admin/events/:id' element={isAuth ? <AdminEventControl /> : <Login />} /> {/* New route */}
                   {/* Add routes for hosted and create event pages */}
                 </Routes>
               </div>

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { UserData } from '../context/UserContext';
 
 const EventDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { user, setUser } = UserData();
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -29,6 +32,28 @@ const EventDetail = () => {
   if (!event) {
     return <div className="p-4">Event not found</div>;
   }
+
+  // Determine if the user is already registered for this event
+  const isRegistered =
+    user.joinedEvents && user.joinedEvents.some((eid) => eid.toString() === event._id);
+
+  const handleRegister = () => {
+    // Navigate to register-team page for team registration
+    navigate(`/register-team/${event._id}`);
+  };
+
+  const handleUnregister = async () => {
+    try {
+      await axios.post(`/api/events/unregister/${event._id}`, {}, { withCredentials: true });
+      // Remove the event id from the user's joinedEvents array
+      const updatedJoinedEvents = user.joinedEvents.filter(
+        (eid) => eid.toString() !== event._id
+      );
+      setUser({ ...user, joinedEvents: updatedJoinedEvents });
+    } catch (error) {
+      console.error('Error unregistering from event:', error);
+    }
+  };
 
   return (
     <div className="p-4">
@@ -58,6 +83,23 @@ const EventDetail = () => {
       <div className="mb-2">
         <span className="font-semibold">Team Size: </span>
         {event.teamSize}
+      </div>
+      <div className="mt-4">
+        {isRegistered ? (
+          <button
+            onClick={handleUnregister}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded mr-2"
+          >
+            Unregister
+          </button>
+        ) : (
+          <button
+            onClick={handleRegister}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded mr-2"
+          >
+            Register
+          </button>
+        )}
       </div>
     </div>
   );

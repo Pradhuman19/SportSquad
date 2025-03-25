@@ -3,6 +3,7 @@ import getDataUrl from "../utils/urlGenerator.js";
 import cloudinary from "cloudinary";
 import { Event } from "../models/eventModel.js";
 import { User } from "../models/userModel.js";
+import { Team } from "../models/teamModel.js"; // <-- Import Team model
 
 export const createanEvent = TryCatch(async (req, res) => {
     const { title, description, date, address, category, difficulty, teamSize } = req.body;
@@ -66,4 +67,36 @@ export const getJoinedEvents = TryCatch(async (req, res) => {
 export const getHostedEvents = TryCatch(async (req, res) => {
   const events = await Event.find({ owner: req.user._id }).sort({ createdAt: -1 });
   res.json(events);
+});
+
+export const unregisterEvent = TryCatch(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) return res.status(404).json({ msg: "User not found." });
+
+  user.joinedEvents = user.joinedEvents.filter(
+    (eid) => eid.toString() !== req.params.id
+  );
+  await user.save();
+
+  res.json({ msg: "Unregistered from event successfully" });
+});
+
+export const deleteTeamFromEvent = TryCatch(async (req, res) => {
+    const { eventId, teamId } = req.params;
+    
+    // Find the event
+    const event = await Event.findById(eventId);
+    if (!event) return res.status(404).json({ msg: "Event not found." });
+    
+    // Remove the team from the event's participants array
+    event.participants = event.participants.filter(
+      (id) => id.toString() !== teamId
+    );
+    await event.save();
+
+    // Delete the team document from the database
+    const deletedTeam = await Team.findByIdAndDelete(teamId);
+    if (!deletedTeam) return res.status(404).json({ msg: "Team not found." });
+
+    res.json({ msg: "Team removed successfully" });
 });
