@@ -4,6 +4,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import RegisterTeam from './pages/RegisterTeam';
 import JoinedEvents from './pages/JoinedEvents'; // Import the new JoinedEvents page
+import Events from './pages/Events'; // import the Events page
 import { UserData } from './context/UserContext';
 import { Loading } from './components/Loading';
 import Navbar from './components/Navbar';
@@ -26,6 +27,7 @@ const App = () => {
                   <Route path='/register' element={isAuth ? <DashBoard /> : <Register />} />
                   <Route path='/register-team/:id' element={isAuth ? <RegisterTeam /> : <Login />} />
                   <Route path='/joined' element={isAuth ? <JoinedEvents /> : <Login />} /> {/* Add the new route */}
+                  <Route path='/events' element={isAuth ? <Events /> : <Login />} /> {/* New route */}
                   {/* Add routes for hosted and create event pages */}
                 </Routes>
               </div>
