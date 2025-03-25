@@ -8,7 +8,7 @@ const CreateEvent = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState('');
-  const [location, setLocation] = useState('');
+  const [address, setAddress] = useState('');
   const [category, setCategory] = useState('');
   const [difficulty, setDifficulty] = useState('');
   const [teamSize, setTeamSize] = useState('');
@@ -27,7 +27,7 @@ const CreateEvent = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('date', date);
-    formData.append('location', location);
+    formData.append('address', address); // changed from 'location' to 'address'
     formData.append('category', category);
     formData.append('difficulty', difficulty);
     formData.append('teamSize', teamSize);
@@ -84,13 +84,13 @@ const CreateEvent = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700">Location</label>
+            <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
             <input
               type="text"
-              id="location"
+              id="address"
               className="common-input"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               required
             />
           </div>

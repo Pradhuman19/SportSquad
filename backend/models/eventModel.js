@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
     date: {
         type: Date
     },
-    location: {
+    Address: {
         type: String
     },
     category: {
