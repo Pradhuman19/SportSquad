@@ -21,7 +21,7 @@ const Login = () => {
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex justify-center mb-4">
           <img
-            src = "../media/logo.png"
+            src = "https://cdn-ilbojad.nitrocdn.com/awcAsNPoUcMxBzpcHqAIOVxEUqlzZnwp/assets/images/optimized/rev-6397ef1/www.thepixelfreak.co.uk/wp-content/uploads/2023/08/Abstract-Letter-S-Logo-Design.png"
             alt="sport"
             className="h-12 rounded-4xl"
           />
