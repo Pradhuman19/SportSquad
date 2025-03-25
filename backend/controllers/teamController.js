@@ -5,10 +5,11 @@ import { User } from "../models/userModel.js";
 
 export const createTeam = TryCatch(async (req, res) => {
   const { name, members } = req.body;
-
+  
   const event = await Event.findById(req.params.id);
   if (!event) return res.status(404).json({ msg: "Event not found." });
 
+  // Create team with the current user as the leader
   const team = await Team.create({
     name,
     members,
