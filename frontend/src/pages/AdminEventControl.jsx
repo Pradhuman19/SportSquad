@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const AdminEventControl = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,7 +28,7 @@ const AdminEventControl = () => {
       return;
     }
     try {
-      // Call the backend endpoint to remove the team from the event and delete the team from the database
+      // Call backend to remove the team from the event and delete the team
       await axios.delete(`/api/events/${id}/teams/${teamId}`, { withCredentials: true });
       // Update local state after removal
       setEvent({
@@ -39,12 +40,33 @@ const AdminEventControl = () => {
     }
   };
 
+  const handleDeleteEvent = async () => {
+    if (!window.confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
+      return;
+    }
+    try {
+      await axios.delete(`/api/events/${id}`, { withCredentials: true });
+      alert("Event deleted successfully.");
+      navigate('/hosted');
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    }
+  };
+
   if (loading) return <div className="p-4">Loading...</div>;
   if (!event) return <div className="p-4">Event not found</div>;
 
   return (
     <div className="p-4">
-      <h1 className="text-3xl font-bold mb-4">Admin Control: {event.title}</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-3xl font-bold">Admin Control: {event.title}</h1>
+        <button
+          onClick={handleDeleteEvent}
+          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+        >
+          Delete Event
+        </button>
+      </div>
       <h2 className="text-xl font-semibold mb-2">Registered Teams</h2>
       <div className="space-y-4">
         {event.participants && event.participants.length > 0 ? (
