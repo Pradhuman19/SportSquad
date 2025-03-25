@@ -68,7 +68,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ loginUser, btnLoading, isAuth, user, loading, registerUser, logout }}>
+    <UserContext.Provider value={{ loginUser, btnLoading, isAuth, user, loading, registerUser, logout, setUser }}>
       {children}
       <Toaster />
     </UserContext.Provider>

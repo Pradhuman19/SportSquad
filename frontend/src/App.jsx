@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import DashBoard from './pages/DashBoard';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import RegisterTeam from './pages/RegisterTeam';
+import JoinedEvents from './pages/JoinedEvents'; // Import the new JoinedEvents page
 import { UserData } from './context/UserContext';
 import { Loading } from './components/Loading';
 import Navbar from './components/Navbar';
@@ -22,7 +24,9 @@ const App = () => {
                   <Route path='/' element={isAuth ? <DashBoard /> : <Login />} />
                   <Route path='/login' element={isAuth ? <DashBoard /> : <Login />} />
                   <Route path='/register' element={isAuth ? <DashBoard /> : <Register />} />
-                  {/* Add routes for hosted, joined, and create event pages */}
+                  <Route path='/register-team/:id' element={isAuth ? <RegisterTeam /> : <Login />} />
+                  <Route path='/joined' element={isAuth ? <JoinedEvents /> : <Login />} /> {/* Add the new route */}
+                  {/* Add routes for hosted and create event pages */}
                 </Routes>
               </div>
             </div>
