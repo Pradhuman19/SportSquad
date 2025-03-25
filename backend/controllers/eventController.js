@@ -58,3 +58,8 @@ export const getJoinedEvents = TryCatch(async (req, res) => {
 
   res.json(user.joinedEvents);
 });
+
+export const getHostedEvents = TryCatch(async (req, res) => {
+  const events = await Event.find({ owner: req.user._id }).sort({ createdAt: -1 });
+  res.json(events);
+});
